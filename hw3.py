@@ -6,33 +6,39 @@ def find_pairs_naive(lst, target):
     answers = set()
 
     # scroll through first items, exclude last item
-    for i in range(len(lst) - 1):
+    for i in range(len(lst) - 1):  # n
         # scroll through next item over
-        for j in range(i + 1, len(lst)):
+        for j in range(i + 1, len(lst)):  # n
             # check for target
-            if lst[i] + lst[j] == target:
-                answers.add((lst[i], lst[j]))
-    return answers
+            if lst[i] + lst[j] == target:  # 1
+                answers.add((lst[i], lst[j]))  # 1
+    return answers  # 1
+    # ---------
+    # 3 + n^2 = O(n^2)
+    # iterates over all elements in 2 different for loops, meaning O(n^2) running time
 
 
 def find_pairs_optimized(list_of_pairs, target):
     """Use a dictionary/hashmap to cache values to find pairs"""
     integers_pair_dict = {}
     answers = set()
-    for index, value in enumerate(list_of_pairs):
+    for index, value in enumerate(list_of_pairs):  # n
 
-        other_value = target - value
+        other_value = target - value  # 1
         # is other value in list?
-        if other_value in list_of_pairs and other_value != value:
+        if other_value in list_of_pairs and other_value != value:  # 1
 
             # check if one of the answers is in the dictionary
-            if not other_value in integers_pair_dict:
+            if not other_value in integers_pair_dict:  # 1
                 # first time around, add to set
-                answers.add((value, other_value))
+                answers.add((value, other_value))  # 1
             # add value to hashmap
-            integers_pair_dict[value] = index
+            integers_pair_dict[value] = index  # 1
 
-    return answers
+    return answers  # 1
+    # -----------
+    # 5 + n = O(n)
+    # only goes through one for loop, meaning O(n) running time
 
 
 def measure_min_time(fn, lst, target):
