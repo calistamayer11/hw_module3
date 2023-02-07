@@ -35,14 +35,66 @@ def measure_min_time(fn, lst, target):
         time_lst.append(elapsed_time)
 
     # return min(time_lst)
-    return time_lst
+    return min(time_lst)
 
 
-big_list = [value for value in range(1, 1001)]
+def print_table():
+    lst_10 = [value for value in range(1, 11)]
+    target_10 = 12
+    lst_50 = [value for value in range(1, 51)]
+    target_50 = 65
+    lst_100 = [value for value in range(1, 101)]
+    target_100 = 117
+    lst_150 = [value for value in range(1, 151)]
+    target_150 = 183
+    lst_200 = [value for value in range(1, 201)]
+    target_200 = 208
+    lst_300 = [value for value in range(1, 301)]
+    target_300 = 309
+    lst_500 = [value for value in range(1, 501)]
+    target_500 = 511
+    list_of_tuples = [
+        (10, lst_10, target_10),
+        (50, lst_50, target_50),
+        (100, lst_100, target_100),
+        (150, lst_150, target_150),
+        (200, lst_200, target_200),
+        (300, lst_300, target_300),
+        (500, lst_500, target_500),
+    ]
 
-target = 500
-integer_list = [1, 2, 3, 4, 5]
+    table_header = f"""n           naive             optimized\n*************************************************\n"""
+
+    # n = ""
+    # naive = ""
+    # optimized = ""
+
+    def loop_string(n, naive, optimized):
+        return f"""{n}        {naive}            {optimized}\n"""
+
+    table_footer = f"""
+    -------------------------------------------------
+    """
+
+    table_string = table_header
+    for n, lst, target in list_of_tuples:
+        table_string += loop_string(
+            n,
+            measure_min_time(find_pairs_naive, lst, target),
+            measure_min_time(find_pairs_optimized, lst, target),
+        )
+    table_string += table_footer
+    return table_string
+
+
+# if __name__ == '__main__':
+
+# big_list = [value for value in range(1, 1001)]
+
+# target = 500
+# integer_list = [1, 2, 3, 4, 5]
 # print(find_pairs_naive(integer_list, target))
 # print(measure_min_time(find_pairs_naive, integer_list, target))
 # print(find_pairs_optimized, integer_list, target)
-print(measure_min_time(find_pairs_optimized, big_list, target))
+# print(measure_min_time(find_pairs_optimized, big_list, target))
+print(print_table())
