@@ -2,30 +2,44 @@ import time
 
 
 def find_pairs_naive(lst, target):
+    """Brute force method of finding pairs"""
     answers = set()
+
+    # scroll through first items, exclude last item
     for i in range(len(lst) - 1):
+        # scroll through next item over
         for j in range(i + 1, len(lst)):
+            # check for target
             if lst[i] + lst[j] == target:
                 answers.add((lst[i], lst[j]))
     return answers
 
 
 def find_pairs_optimized(list_of_pairs, target):
+    """Use a dictionary/hashmap to cache values to find pairs"""
     integers_pair_dict = {}
     answers = set()
     for index, value in enumerate(list_of_pairs):
-        # check if one of the answers is in the dictionary. unsure which number to check, but if the answer is in the dictionary, shouldn't duplicate.
+
         other_value = target - value
+        # is other value in list?
         if other_value in list_of_pairs and other_value != value:
+
+            # check if one of the answers is in the dictionary
             if not other_value in integers_pair_dict:
+                # first time around, add to set
                 answers.add((value, other_value))
+            # add value to hashmap
             integers_pair_dict[value] = index
+
     return answers
 
 
 def measure_min_time(fn, lst, target):
+    """Test function 10 times and return minimum run time as a formatted number string"""
     elapsed_time = 0
     time_lst = []
+
     for i in range(10):
         start = time.time()
         fn(lst, target)
@@ -34,11 +48,11 @@ def measure_min_time(fn, lst, target):
         elapsed_time = f"{elapsed_time:.4f}"
         time_lst.append(elapsed_time)
 
-    # return min(time_lst)
     return min(time_lst)
 
 
 def print_table():
+    """Formatted table of minimum times"""
     lst_10 = [value for value in range(1, 11)]
     target_10 = 12
     lst_50 = [value for value in range(1, 51)]
@@ -65,10 +79,6 @@ def print_table():
 
     table_header = f"""n           naive             optimized\n*************************************************\n"""
 
-    # n = ""
-    # naive = ""
-    # optimized = ""
-
     def loop_string(n, naive, optimized):
         return f"""{n}        {naive}            {optimized}\n"""
 
@@ -85,16 +95,3 @@ def print_table():
         )
     table_string += table_footer
     return table_string
-
-
-# if __name__ == '__main__':
-
-# big_list = [value for value in range(1, 1001)]
-
-# target = 500
-# integer_list = [1, 2, 3, 4, 5]
-# print(find_pairs_naive(integer_list, target))
-# print(measure_min_time(find_pairs_naive, integer_list, target))
-# print(find_pairs_optimized, integer_list, target)
-# print(measure_min_time(find_pairs_optimized, big_list, target))
-print(print_table())
