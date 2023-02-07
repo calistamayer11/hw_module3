@@ -1,9 +1,12 @@
-def find_pairs_naive(first, target):
+import time
+
+
+def find_pairs_naive(lst, target):
     answers = set()
-    for i in range(len(first) - 1):
-        for j in range(i + 1, len(first)):
-            if first[i] + first[j] == target:
-                answers.add((first[i], first[j]))
+    for i in range(len(lst) - 1):
+        for j in range(i + 1, len(lst)):
+            if lst[i] + lst[j] == target:
+                answers.add((lst[i], lst[j]))
     return answers
 
 
@@ -12,8 +15,10 @@ def find_pairs_optimized(list_of_pairs, target):
     answers = set()
     for index, value in enumerate(list_of_pairs):
         # check if one of the answers is in the dictionary. unsure which number to check, but if the answer is in the dictionary, shouldn't duplicate.
-        if target - value in list_of_pairs:
-
+        if not target - value in integers_pair_dict:
+            answers.add(target - value)
+            # add current index and value to the dict
+            integers_pair_dict[value] = index
             item_index = list_of_pairs.index(target - value)
 
             if not item_index in integers_pair_dict:
@@ -23,10 +28,23 @@ def find_pairs_optimized(list_of_pairs, target):
     return answers
 
 
-def measure_min_time():
-    pass
+def measure_min_time(fn, lst, target):
+    elapsed_time = 0
+    time_lst = []
+    for i in range(10):
+        start = time.time()
+        find_pairs_naive(lst, target)
+        end = time.time()
+        elapsed_time = end - start
+        elapsed_time = f"{elapsed_time:.4f}"
+        time_lst.append(elapsed_time)
+
+    # return min(time_lst)
+    return time_lst
 
 
 target = 7
 integer_list = [1, 2, 3, 4, 5]
 print(find_pairs_naive(integer_list, target))
+print(measure_min_time(find_pairs_naive, integer_list, target))
+print(measure_min_time(find_pairs_optimized, integer_list, target))
